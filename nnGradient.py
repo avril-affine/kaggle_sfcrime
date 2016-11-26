@@ -33,24 +33,6 @@ def gradient(Theta, X, Y, lam):
         d3 = np.reshape(d3, (1, k))
         delta1 = delta1 + (1.0 / m) * np.dot(a1.T, d2)
         delta2 = delta2 + (1.0 / m) * np.dot(a2.T, d3)
-    """
-    # compute a2 a3
-    one = np.ones(m)
-    one = np.reshape(one, (m, 1))
-    a1 = np.concatenate((one, X), axis=1)
-    a2 = sigmoid(np.dot(a1, Theta1))     #m x k_h
-    a2 = np.concatenate((one, a2), axis=1)
-    a3 = sigmoid(np.dot(a2, Theta2))    #m x k
-
-    # compute deltas
-    d3 = a3 - Y #m x k
-    g_z2 = np.dot(a2.T, 1.0 - a2)
-    d2 = np.dot(np.dot(d3, Theta2.T), g_z2)    #m x k_h
-    d2 = d2[:, 1:]
-
-    delta1 = (1.0 / m) * np.dot(a1.T, d2)
-    delta2 = (1.0 / m) * np.dot(a2.T, d3)
-    """
 
     # regularize
     reg1 = Theta1

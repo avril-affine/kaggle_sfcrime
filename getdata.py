@@ -41,7 +41,12 @@ def getData(file, test=False, perc=0.75, rand=False):
         t = date[i].split(' ')[1]
         hour = int(t.split(':')[0])
         minute = int(t.split(':')[1])
-        date[i] = hour * 60 + minute
+        # set date to 0 or 1 (5am to 5pm) morning otw night
+        if hour >= 17 or hour < 5:
+            date[i] = 0
+        else:
+            date[i] = 1
+        #date[i] = hour * 60 + minute
         year.append(int(d.split('-')[0]))
         month.append(int(d.split('-')[1]))
 
@@ -121,9 +126,11 @@ def getData(file, test=False, perc=0.75, rand=False):
     lat = lat[train_part]
 
     # form X and Y matrices
-    X = np.concatenate(([date], [year], [month], [day], [district], [address], 
-                        [lng], [lat]), axis=0).T
+    #X = np.concatenate(([date], [year], [month], [day], [district], [address], 
+    #                    [lng], [lat]), axis=0).T
     
+    X = np.concatenate(([date], [year], [month], [day], [district],
+                       ), axis=0).T
     Y = []
     for i in range(len(category_un)):
         temp = [0] * len(crimes)
@@ -131,8 +138,11 @@ def getData(file, test=False, perc=0.75, rand=False):
         Y.append(temp)
     Y = np.array(Y)
 
-    X_test = np.concatenate(([date_un], [year_un], [month_un], [day_un], [district_un], [address_un], 
-                             [lng_un], [lat_un]), axis=0).T
+    #X_test = np.concatenate(([date_un], [year_un], [month_un], [day_un], [district_un], [address_un], 
+    #                         [lng_un], [lat_un]), axis=0).T
+
+    X_test = np.concatenate(([date_un], [year_un], [month_un], [day_un],
+                             [district_un]), axis=0).T
 
     if not test:
         X_test = X_test[test_part]
